@@ -121,7 +121,10 @@ class SignInMobileView extends StatelessWidget {
                                       EdgeInsets.only(left: 25.0, right: 25.0),
                                   child: model.resetOTPTimer == true
                                       ? Text("")
-                                      : Text(model.resendOPT.toString()),
+                                      : model.resendOPT == 0
+                                          ? Text("")
+                                          : Text(model.resendOPT.toString() +
+                                              "sec"),
                                 ),
                                 model.displayResendButton == true
                                     ? Padding(

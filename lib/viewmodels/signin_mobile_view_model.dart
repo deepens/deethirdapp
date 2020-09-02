@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:deethirdapp/services/navigation_service.dart';
+import 'package:deethirdapp/services/user_service.dart';
 import 'package:deethirdapp/shared/locator.dart';
 import 'package:deethirdapp/shared/routing_constants.dart';
 import 'package:deethirdapp/viewmodels/base_model.dart';
@@ -10,10 +11,10 @@ import '../services/auth_service.dart';
 class SignInMobileViewModel extends BaseModel {
   final formKey = new GlobalKey<FormState>();
 
-  // String _verificationId;
-
   final AuthService _auth = locator<AuthService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final UserService _userService = locator<UserService>();
+
   //final GlobalKey<State> _progressDialogLoader = GlobalKey<State>();
   String _phoneNo, _verificationId, smsCode;
   int _forceResendingToken;
@@ -80,15 +81,14 @@ class SignInMobileViewModel extends BaseModel {
     Timer.periodic(oneSec, (Timer timer) {
       if (_start < 1) {
         timer.cancel();
-        //setresetOTPTimer(true);
         setdisplayResendButton(true);
-        print(
-            "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii$_start$resendOPT()");
+        //print(
+        //   "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii$_start$resendOPT()");
       } else {
         _start = _start - 1;
         setresendOTP(_start);
       }
-      print("------------------$resendOPT");
+      //print("------------------$resendOPT");
     });
   }
 
@@ -99,21 +99,27 @@ class SignInMobileViewModel extends BaseModel {
       setphoneNo(phoneNo);
       final PhoneVerificationCompleted verified =
           (AuthCredential authResult) async {
-        await FirebaseAuth.instance
+        var value = await FirebaseAuth.instance
             .signInWithCredential(authResult)
-            .then((AuthResult value) {
-          if (value.user != null) {
-            setErrormessage(
-                '***********************************Authentication successful');
-            _navigationService.navigateTo(HomePageRoute);
-          } else {
-            setErrormessage('Invalid code/invalid authentication');
-            //showProgressBar(false);
-          }
+            .then((AuthResult user) {
+          return user;
         }).catchError((error) {
           setErrormessage('Something has gone wrong, please try later');
           //showProgressBar(false);
         });
+        if (value.user != null) {
+          setErrormessage(
+              '***********************************Authentication successful');
+          var response = await signUp(phoneno: phoneNo);
+          if (response == true) {
+            _navigationService.navigateTo(HomePageRoute);
+          } else {
+            setErrormessage("value");
+          }
+        } else {
+          setErrormessage('Invalid code/invalid authentication');
+          //showProgressBar(false);
+        }
       };
 
       final PhoneVerificationFailed verificationfailed =
@@ -152,7 +158,7 @@ class SignInMobileViewModel extends BaseModel {
           codeSent: smsSent,
           forceResendingToken: _forceResendingToken,
           codeAutoRetrievalTimeout: autoTimeout);
-
+      //setCodeSent(true);
       showProgressBar(false);
       startTimer();
     } catch (e) {
@@ -165,12 +171,52 @@ class SignInMobileViewModel extends BaseModel {
     showProgressBar(true);
     var result = await _auth.signInWithOTP(smsCode, verificationId());
     if (result == true) {
-      setErrormessage("");
-      _navigationService.navigateTo(HomePageRoute);
+      var response = await signUp(phoneno: phoneNo);
+      if (response == true) {
+        setErrormessage("");
+        _navigationService.navigateTo(HomePageRoute);
+        print("iiiiiiiiiiiiiiiiiiiiiiaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhh");
+      } else {
+        setErrormessage(
+            "Mobile no already registered, Please try using another number.");
+      }
     } else {
       setErrormessage(result);
     }
     showProgressBar(false);
     print(" Outside_2->$result");
   }
+
+  bool isuserloggedin = false;
+
+  Future signUp({@required String phoneno, BuildContext context}) async {
+    try {
+      String token;
+      print("i am heeeeeeeeeeeee");
+      token = await _auth.getUserToken();
+
+      var result;
+      result = await _userService.verifyEmailOrPhonenoExist(umobileno: phoneno);
+      if (result == "false") {
+        result = await _userService.addUsers(umobileno: phoneno, utoken: token);
+      }
+      return true;
+    } catch (e) {
+      setErrormessage(
+          "Error Logging using mobile no, Please try after some time.");
+      return false;
+    }
+  }
+
+  // if (result == "success") {
+  //   _navigationService.pop();
+  //   _navigationService.navigateTo(HomePageRoute);
+  // } else {
+  //   await _dialogService.showDialog(
+  //     title: 'Sign Up Failure',
+  //     description: result,
+  //   );
+  //}
+  //showProgressBar(false);
+  //}
 }

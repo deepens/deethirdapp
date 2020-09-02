@@ -1,16 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/user_models.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _fmsg = FirebaseMessaging();
 
   String _errormsg;
   Users _currentUser;
   String phoneNo, verificationId, smsCode;
-
+  //String _title;
   Users get currentUser => _currentUser;
 
   bool _smsCodeExpired = false;
@@ -21,19 +22,6 @@ class AuthService {
 
   setSMSCodeExpired(value) {
     _smsCodeExpired = value;
-  }
-
-  Future getUserToken() async {
-    try {
-      var result =
-          await _firebaseMessaging.getToken().then((value) => value.toString());
-      // print("--->>>>>>"+result.toString());
-      return result != null ? result.toString() : "false";
-    } on Exception catch (e) {
-      _errormsg = e.toString();
-      print("auth_Service_isUserLoggedIn:" + _errormsg.toString());
-      return _errormsg;
-    }
   }
 
   isUserLoggedIn() async {
@@ -134,4 +122,37 @@ class AuthService {
       }
     }
   }
+
+  Future getUserToken() async {
+    try {
+      var result = await _fmsg.getToken().then((value) => value.toString());
+      // print("--->>>>>>"+result.toString());
+      return result != null ? result.toString() : "false";
+    } on Exception catch (e) {
+      _errormsg = e.toString();
+      print("auth_Service_isUserLoggedIn:" + _errormsg.toString());
+      return _errormsg;
+    }
+  }
+
+  // void pushNotification() {
+  //   //String _helper, _userdata, _token;
+  //   _fmsg.configure(
+  //     onMessage: (message) async {
+  //       // _title = message["notification"]["title"];
+  //       // _helper = message["notification"]["body"];
+  //       // _userdata = message["data"]["key1"];
+  //     },
+  //     onResume: (message) async {
+  //       // _title = message["notification"]["title"];
+  //       // _helper = message["notification"]["body"];
+  //       // _userdata = message["data"]["key1"];
+  //     },
+  //     onBackgroundMessage: (message) async {
+  //       // _title = message["notification"]["title"];
+  //       // _helper = message["notification"]["body"];
+  //       // _userdata = message["data"]["key1"];
+  //     },
+  //   );
+  // }
 }

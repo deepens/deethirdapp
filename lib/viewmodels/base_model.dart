@@ -10,10 +10,8 @@ class BaseModel extends ChangeNotifier {
   final GlobalKey<State> _progressDialogLoader = GlobalKey<State>();
   Users get currentUser => _authenticationService.currentUser;
   final NavigationService _navigationService = locator<NavigationService>();
+
   bool _busy = false;
-
-//  String _smsCode = '';
-
   bool get busy => _busy;
   bool _smsCodeExpired = false;
 

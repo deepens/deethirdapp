@@ -1,18 +1,16 @@
 //import 'package:flutter/material.dart';
-class PushNotifiction {
+class PushNotifictionModel {
   String body;
   String title;
-  String view;
-  
+  //String view;
 
-  PushNotifiction({this.body, this.title="", this.view=""});
+  PushNotifictionModel({this.body, this.title = ""});
 
-  factory PushNotifiction.fromJson(Map<String, dynamic> json) {
-    return PushNotifiction(
+  factory PushNotifictionModel.fromJson(Map<String, dynamic> json) {
+    return PushNotifictionModel(
       body: json['body'] as String,
       title: json['title'] as String,
-      view: json['view'] as String,
-      
+      //  view: json['view'] as String,
     );
   }
 }

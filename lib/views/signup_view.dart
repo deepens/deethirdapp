@@ -42,7 +42,6 @@ class SignUpView extends StatelessWidget {
                     // ),
                     verticalSpaceMedium,
                     SizedBox(
-                        height: 20,
                         child: !model.busy != false
                             ? Text(
                                 model.getErrormessage().toString(),
@@ -54,6 +53,7 @@ class SignUpView extends StatelessWidget {
                         //child:_image,
 
                         ),
+                    verticalSpaceSmall,
                     FormBuilder(
                       key: _fbKey,
                       child: Column(

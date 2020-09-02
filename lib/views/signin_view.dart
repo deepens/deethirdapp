@@ -44,7 +44,7 @@ class SignInView extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             SizedBox(
-                                height: 20,
+                                height: 40,
                                 child: !model.busy != false
                                     ? Text(
                                         model.getErrormessage(),

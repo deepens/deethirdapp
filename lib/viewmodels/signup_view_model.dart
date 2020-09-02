@@ -29,23 +29,32 @@ class SignUpViewModel extends BaseModel {
     String lastname;
     lastname ??= '';
     String token;
-    token = await _authService.getUserToken();
-    showProgressBar(true);
-    var result = await _userService.addUsers(
-        uemail: email,
-        upassword: password,
-        utoken: token,
-        ufirstname: firstname,
-        ulastname: lastname);
 
-    if (result == "success") {
-      _navigationService.pop();
-      _navigationService.navigateTo(HomePageRoute);
+    showProgressBar(true);
+    var _emailorphoneexist =
+        await _userService.verifyEmailOrPhonenoExist(uemail: email);
+    print(">>>>>>>>>>" + _emailorphoneexist.toString());
+    if (_emailorphoneexist == "true") {
+      setErrormessage("Email ID already resistered, please try another ID");
     } else {
-      await _dialogService.showDialog(
-        title: 'Sign Up Failure',
-        description: result,
-      );
+      token = await _authService.getUserToken();
+
+      var result = await _userService.addUsers(
+          uemail: email,
+          upassword: password,
+          utoken: token,
+          ufirstname: firstname,
+          ulastname: lastname);
+
+      if (result == "success") {
+        _navigationService.pop();
+        _navigationService.navigateTo(HomePageRoute);
+      } else {
+        await _dialogService.showDialog(
+          title: 'Sign Up Failure',
+          description: result,
+        );
+      }
     }
     showProgressBar(false);
   }

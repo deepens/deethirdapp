@@ -1,3 +1,5 @@
+import 'package:deethirdapp/widgets/pushnotification_field.dart';
+
 import '../shared/ui_helpers.dart';
 import '../views/constants.dart';
 import '../viewmodels/home_view_model.dart';
@@ -12,6 +14,7 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
       disposeViewModel: false,
+      onModelReady: (model) => model.initialise(),
       builder: (context, model, child) => SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -19,6 +22,9 @@ class HomeView extends StatelessWidget {
               "Home Page",
               style: TextStyle(color: Colors.white),
             ),
+            actions: [
+              PushnotificationIconWidget(),
+            ],
             backgroundColor: kPrimaryColor,
           ),
           body: Container(

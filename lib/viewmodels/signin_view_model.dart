@@ -22,7 +22,7 @@ class SignInViewModel extends BaseModel {
       BuildContext context}) async {
     showProgressBar(true);
     //LoadingService.showLoadingDialog(context,_progressDialogLoader) ;
-    var result = await _userService.getUserid(email, password);
+    var result = await _userService.getUserIdBasedonEmail(email, password);
 
     if (result != null || result.length >= 1) {
       String token;

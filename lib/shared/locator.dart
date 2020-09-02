@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import '../services/signout_service.dart';
 import '../services/auth_service.dart';
-import '../services/msg_service.dart';
 import '../services/user_service.dart';
 import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
@@ -13,7 +12,6 @@ GetIt locator = GetIt.instance;
 
 void setupLocator() {
   locator.registerLazySingleton(() => AuthService());
-  locator.registerLazySingleton(() => MsgService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => NavigationService());

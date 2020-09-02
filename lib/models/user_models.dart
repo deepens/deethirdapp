@@ -6,8 +6,22 @@ class Users {
   String utoken;
   String ufirstname;
   String ulastname;
+  String umobileno;
+  int uemailverified;
+  int umobileverified;
+  String ucreated;
 
-  Users({this.uid, this.uemail, this.upassword,this.utoken, this.ufirstname="", this.ulastname=""});
+  Users(
+      {this.uid,
+      this.uemail,
+      this.upassword,
+      this.utoken,
+      this.ufirstname = "",
+      this.ulastname = "",
+      this.umobileno,
+      this.uemailverified,
+      this.umobileverified,
+      this.ucreated});
 
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
@@ -17,6 +31,10 @@ class Users {
       utoken: json['utoken'] as String,
       ufirstname: json['ufirstname'] as String,
       ulastname: json['ulastname'] as String,
+      umobileno: json['umobileno'] as String,
+      uemailverified: json['uemailverified'] as int,
+      umobileverified: json['umobileverified'] as int,
+      ucreated: json['ucreated'] as String,
     );
   }
 }
