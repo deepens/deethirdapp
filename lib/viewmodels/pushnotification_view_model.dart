@@ -13,6 +13,8 @@ class PushnotificationViewModel extends BaseModel {
   Map<String, dynamic> _message;
   String _pushNotificationtitle, _pushNotificationbody;
   List<Map<String, dynamic>> _messageList = List();
+
+  var listOfMessage = List<Map<String, dynamic>>();
   get messageList => _messageList;
 
   set messageList(val) {
@@ -65,8 +67,19 @@ class PushnotificationViewModel extends BaseModel {
         setPushNotificationTitle(message["notification"]["title"]);
         setPushNotificationBody(message["notification"]["body"]);
         setPushNotificationCount();
-        print('onMessage: ' + pushNotificationTitle.toString());
-        print('onMessage: ' + pushNotificationBody.toString());
+        // print('onMessage: ' + pushNotificationTitle.toString());
+        // print('onMessage: ' + pushNotificationBody.toString());
+        // listOfMessage.add(
+        //     {"title": pushNotificationTitle, "body": pushNotificationBody});
+        // for (var entry in listOfMessage) {
+        //   print(entry["title"] + ":" + entry["body"]);
+        //   //print(welcomelist.length);
+
+        // }
+        addMessageToMessageList({
+          "title": pushNotificationTitle.toString(),
+          "body": pushNotificationBody.toString()
+        });
         //setMessage(message);
         // _pushNotificatonList.add(_pushNotifiction);
 
@@ -86,8 +99,8 @@ class PushnotificationViewModel extends BaseModel {
         setPushNotificationTitle(message["notification"]["title"]);
         setPushNotificationBody(message["notification"]["body"]);
         setPushNotificationCount();
-        print('onMessage: ' + pushNotificationTitle.toString());
-        print('onMessage: ' + pushNotificationBody.toString());
+        print('onLaunch: ' + pushNotificationTitle.toString());
+        print('onLaunch: ' + pushNotificationBody.toString());
         //setMessage(message);
         //addPushNotification();
       },
@@ -98,17 +111,19 @@ class PushnotificationViewModel extends BaseModel {
         setPushNotificationCount();
         setPushNotificationTitle(message["notification"]["title"]);
         setPushNotificationBody(message["notification"]["body"]);
-        print('onMessage: ' + pushNotificationTitle.toString());
-        print('onMessage: ' + pushNotificationBody.toString());
+        print('onResume: ' + pushNotificationTitle.toString());
+        print('onResume: ' + pushNotificationBody.toString());
         //setMessage(message);
       },
     );
   }
 
-  // addMessageToMessageList() {
-  //   _messageList.add(_message);
-  // }
-
+  addMessageToMessageList(Map<String, dynamic> val) {
+    listOfMessage.add({"title": val["title"], "body": val["body"]});
+    for (var entry in listOfMessage) {
+      print(entry["title"] + ":" + entry["body"]);
+    }
+  }
   // addPushNotification() {
   //   print('onaddPushNotification: $message');
   //   setPushNotificationTitle(message["notification"]["title"] ?? '');

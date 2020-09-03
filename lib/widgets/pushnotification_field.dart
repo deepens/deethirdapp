@@ -16,8 +16,8 @@ class PushnotificationIconWidget
   @override
   bool get disposeViewModel => true;
 
-  @override
-  bool get fireOnModelReadyOnce => false;
+  // @override
+  // bool get fireOnModelReadyOnce => false;
 
   @override
   Widget builder(
