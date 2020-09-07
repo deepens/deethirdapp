@@ -93,37 +93,44 @@ class SignInMobileViewModel extends BaseModel {
   }
 
   Future enterPhoneNo({phoneNo, BuildContext context}) async {
+    showProgressBar(true);
     try {
-      print("**************************" + phoneNo.toString());
-      showProgressBar(true);
+      //print("**************************" + phoneNo.toString());
+
       setphoneNo(phoneNo);
       final PhoneVerificationCompleted verified =
           (AuthCredential authResult) async {
-        var value = await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .signInWithCredential(authResult)
-            .then((AuthResult user) {
-          return user;
+            .then((value) {
+          if (value.user != null) {
+            setErrormessage('Authentication successful');
+
+            _navigationService.navigateTo(HomePageRoute);
+          } else {
+            setErrormessage('Invalid code/invalid authentication');
+          }
         }).catchError((error) {
           setErrormessage('Something has gone wrong, please try later');
           //showProgressBar(false);
         });
-        if (value.user != null) {
-          setErrormessage(
-              '***********************************Authentication successful');
-          var response = await signUp(phoneno: phoneNo);
-          if (response == true) {
-            _navigationService.navigateTo(HomePageRoute);
-          } else {
-            setErrormessage("value");
-          }
-        } else {
-          setErrormessage('Invalid code/invalid authentication');
-          //showProgressBar(false);
-        }
+        // if (value.user != null) {
+        //   setErrormessage(
+        //       '***********************************Authentication successful');
+        //   var response = await signUp(phoneno: phoneNo);
+        //   if (response == true) {
+        //     _navigationService.navigateTo(HomePageRoute);
+        //   } else {
+        //     setErrormessage("value");
+        //   }
+        // } else {
+        //   setErrormessage('Invalid code/invalid authentication');
+        //   //showProgressBar(false);
+        // }
       };
 
       final PhoneVerificationFailed verificationfailed =
-          (AuthException authException) {
+          (FirebaseAuthException authException) {
         if (authException.message
             .contains("The format of the phone number provided is incorrect")) {
           setErrormessage("The format or phone number provided is incorrect");
@@ -136,7 +143,7 @@ class SignInMobileViewModel extends BaseModel {
           setErrormessage('Something has gone wrong, please try later');
         }
 
-        print('${authException.message}');
+        //print('${authException.message}');
         //showProgressBar(false);
       };
 
@@ -174,6 +181,7 @@ class SignInMobileViewModel extends BaseModel {
       var response = await signUp(phoneno: phoneNo);
       if (response == true) {
         setErrormessage("");
+
         _navigationService.navigateTo(HomePageRoute);
         print("iiiiiiiiiiiiiiiiiiiiiiaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhh");
       } else {
@@ -191,6 +199,7 @@ class SignInMobileViewModel extends BaseModel {
 
   Future signUp({@required String phoneno, BuildContext context}) async {
     try {
+      showProgressBar(true);
       String token;
       print("i am heeeeeeeeeeeee");
       token = await _auth.getUserToken();
@@ -200,23 +209,13 @@ class SignInMobileViewModel extends BaseModel {
       if (result == "false") {
         result = await _userService.addUsers(umobileno: phoneno, utoken: token);
       }
+      showProgressBar(false);
       return true;
     } catch (e) {
       setErrormessage(
           "Error Logging using mobile no, Please try after some time.");
+      showProgressBar(false);
       return false;
     }
   }
-
-  // if (result == "success") {
-  //   _navigationService.pop();
-  //   _navigationService.navigateTo(HomePageRoute);
-  // } else {
-  //   await _dialogService.showDialog(
-  //     title: 'Sign Up Failure',
-  //     description: result,
-  //   );
-  //}
-  //showProgressBar(false);
-  //}
 }

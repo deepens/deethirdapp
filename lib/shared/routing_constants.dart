@@ -5,3 +5,4 @@ const String SignupViewPageRoute = '/signup_view';
 const String PushNotificationViewPageRoute = '/pushnotification_view';
 const String NoPageFoundRoute = '/nopagefound';
 const String SignInMobileViewPageRoute = '/signin_mobile_view';
+const String PushnotificationListViewPageRoute = '/pushnotificationlist_view';

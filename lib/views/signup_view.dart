@@ -194,17 +194,17 @@ class SignUpView extends StatelessWidget {
                         children: <Widget>[
                           Divider(),
                           Text("OR"),
-                          RaisedButton(
-                            color: kPrimaryColor,
-                            child: Text(
-                              "Login Using Mobile",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () {
-                              model.navigateToMobileView();
-                            },
-                          ),
-                          Divider(),
+                          // RaisedButton(
+                          //   color: kPrimaryColor,
+                          //   child: Text(
+                          //     "Login Using Mobile",
+                          //     style: TextStyle(color: Colors.white),
+                          //   ),
+                          //   onPressed: () {
+                          //     model.navigateToMobileView();
+                          //   },
+                          // ),
+                          //Divider(),
                           SignInButton(
                             Buttons.Google,
                             onPressed: () {},

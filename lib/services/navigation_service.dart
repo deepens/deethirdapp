@@ -15,7 +15,7 @@ class NavigationService {
         .pushNamed(routeName, arguments: arguments);
   }
 
-  Future<dynamic> navigateToAndClearBackStack(String routeName,
+  Future<dynamic> navigateToPushReplacementNamed(String routeName,
       {dynamic arguments}) {
     //print(arguments.data.toString());
     return _navigationKey.currentState

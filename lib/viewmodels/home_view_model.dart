@@ -10,9 +10,18 @@ class HomeViewModel extends BaseModel {
     showProgressBar(true);
     _signOutService.signOut();
     showProgressBar(false);
+    dispose();
   }
 
   initialise() {
     PushnotificationViewModel().initialise();
+    print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+  }
+
+  @override
+  void dispose() {
+    //WidgetsBinding.instance.removeObserver();
+    super.dispose();
+    print("ddddddddddddddddddddddddddddddddddddddd-signout");
   }
 }

@@ -54,4 +54,16 @@ class SignInViewModel extends BaseModel {
     _navigationService.pop();
     _navigationService.navigateTo(SignupViewPageRoute);
   }
+
+  void navigateToMobileView() {
+    _navigationService.navigateTo(SignInMobileViewPageRoute);
+    //_navigationService.pop();
+  }
+
+  // @override
+  // void dispose() {
+  //   //WidgetsBinding.instance.removeObserver();
+  //   super.dispose();
+  //   print("------------------------------->dispose:signin");
+  // }
 }

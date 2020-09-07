@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/user_models.dart';
 
@@ -26,7 +25,7 @@ class AuthService {
 
   isUserLoggedIn() async {
     try {
-      var user = await _auth.currentUser();
+      var user = currentUser;
       //print(user.getIdToken().toString());
       return user != null;
     } on Exception catch (e) {
@@ -102,8 +101,8 @@ class AuthService {
     print(smsCode.toString());
     print(verId.toString());
     //try {
-    AuthCredential authCreds = PhoneAuthProvider.getCredential(
-        verificationId: verId, smsCode: smsCode);
+    AuthCredential authCreds =
+        PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
 
     try {
       var firebaseUser =

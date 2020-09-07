@@ -123,7 +123,8 @@ class SignInMobileView extends StatelessWidget {
                                       ? Text("")
                                       : model.resendOPT == 0
                                           ? Text("")
-                                          : Text(model.resendOPT.toString() +
+                                          : Text("OTP can be Resend in " +
+                                              model.resendOPT.toString() +
                                               "sec"),
                                 ),
                                 model.displayResendButton == true

@@ -16,8 +16,8 @@ class PushnotificationIconWidget
   @override
   bool get disposeViewModel => true;
 
-  // @override
-  // bool get fireOnModelReadyOnce => false;
+  @override
+  bool get fireOnModelReadyOnce => false;
 
   @override
   Widget builder(
@@ -35,7 +35,7 @@ class PushnotificationIconWidget
       //animationDuration: Duration(milliseconds: 1000),
       borderRadius: 5,
       //padding: EdgeInsets.all(),
-      badgeContent: Text(model.pushNotificationCount.toString(),
+      badgeContent: Text(model.pushNotificationCount.toString() ?? 0,
           style: TextStyle(
               color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
       child: IconButton(
@@ -44,15 +44,16 @@ class PushnotificationIconWidget
           size: 45,
           textDirection: TextDirection.ltr,
         ),
-        onPressed: () {},
+        onPressed: () {
+          model.navigateToPushNotificationListView();
+        },
       ),
     );
   }
 
   @override
   void onViewModelReady(PushnotificationViewModel model) {
-    model.initialise();
-
+    //model.initialise();
     super.onViewModelReady(model);
   }
 

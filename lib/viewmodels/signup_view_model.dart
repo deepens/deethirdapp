@@ -1,17 +1,20 @@
+import 'package:deethirdapp/services/shareddata_service.dart';
+import 'package:deethirdapp/shared/shareddata_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../shared/locator.dart';
-import '../services/dialog_service.dart';
+
 import '../services/navigation_service.dart';
 import '../shared/routing_constants.dart';
 import '../services/user_service.dart';
 import '../services/auth_service.dart';
+import '../shared/shareddata_constants.dart';
 import 'base_model.dart';
 
 class SignUpViewModel extends BaseModel {
   final UserService _userService = locator<UserService>();
-  final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final SharedDataService _sharedDataService = locator<SharedDataService>();
   final AuthService _authService = locator<AuthService>();
 
   String uemail;
@@ -47,13 +50,13 @@ class SignUpViewModel extends BaseModel {
           ulastname: lastname);
 
       if (result == "success") {
-        _navigationService.pop();
+        setErrormessage("");
+
+        _sharedDataService.setSharedData(ISUSERLOGGEDIN, YES);
         _navigationService.navigateTo(HomePageRoute);
       } else {
-        await _dialogService.showDialog(
-          title: 'Sign Up Failure',
-          description: result,
-        );
+        setErrormessage("Signup Failed, Please try after some time");
+        showProgressBar(false);
       }
     }
     showProgressBar(false);
@@ -61,11 +64,6 @@ class SignUpViewModel extends BaseModel {
 
   void navigateToSignIn() {
     _navigationService.navigateTo(SignInViewPageRoute);
-    //_navigationService.pop();
-  }
-
-  void navigateToMobileView() {
-    _navigationService.navigateTo(SignInMobileViewPageRoute);
     //_navigationService.pop();
   }
 }

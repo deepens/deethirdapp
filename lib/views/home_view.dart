@@ -27,6 +27,7 @@ class HomeView extends StatelessWidget {
             ],
             backgroundColor: kPrimaryColor,
           ),
+          drawer: Drawer(),
           body: Container(
             alignment: Alignment.topLeft,
             child: Padding(

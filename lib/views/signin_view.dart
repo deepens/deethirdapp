@@ -173,6 +173,18 @@ class SignInView extends StatelessWidget {
                           ),
                         ],
                       ),
+                      Divider(),
+                      Text("OR"),
+                      RaisedButton(
+                        color: kPrimaryColor,
+                        child: Text(
+                          "Login Using Mobile",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          model.navigateToMobileView();
+                        },
+                      ),
                       verticalSpaceMedium,
                     ],
                   ),

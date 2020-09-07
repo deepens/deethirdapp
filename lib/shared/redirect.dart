@@ -1,3 +1,4 @@
+import 'package:deethirdapp/views/pushnotificationlist_view.dart';
 import 'package:flutter/material.dart';
 import '../shared/routing_constants.dart';
 import '../nopagefound.dart';
@@ -14,8 +15,9 @@ Route<dynamic> redirectingtopage(RouteSettings page) {
       return MaterialPageRoute(builder: (context) => SignInView());
     case SignupViewPageRoute:
       return MaterialPageRoute(builder: (context) => SignUpView());
-    // case PushNotificationViewPageRoute:
-    //   return MaterialPageRoute(builder: (context) => PushNotificationView());
+    case PushnotificationListViewPageRoute:
+      return MaterialPageRoute(
+          builder: (context) => PushNotificationlistView());
     case SignInMobileViewPageRoute:
       return MaterialPageRoute(builder: (context) => SignInMobileView());
 

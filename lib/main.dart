@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import './shared/redirect.dart' as pagerouting;
 import './shared/locator.dart';
 import './services/navigation_service.dart';
@@ -6,10 +8,19 @@ import './services/dialog_service.dart';
 import './views/startup_view.dart';
 import './shared/dialog_manager.dart';
 import './views/constants.dart';
+//import 'package:path_provider/path_provider.dart';
+//import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
   setupLocator();
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  //var dir = await getApplicationDocumentsDirectory();
+  //Hive.init(dir.path);
+  await Hive.initFlutter();
+  await Hive.openBox<List<Map<String, dynamic>>>('pushNotificationMessageBox');
+  Hive.box<List<Map<String, dynamic>>>('pushNotificationMessageBox').clear();
   runApp(MyApp());
 }
 
